@@ -1,0 +1,110 @@
+ sudo apt-get update
+sudo DEBIAN_PRIORITY=low apt-get install postfix
+
+Net_2@203&dt
+General type of mail configuration?: Internet Site
+System mail name: example.com (não mail.example.com)
+Root and postmaster mail recipient: sammy
+Other destinations to accept mail for: $myhostname, example.com, mail.example.com, localhost.example.com e localhost
+Force synchronous updates on mail queue?: No
+Local networks: 127.0.0.0/8[ ::ffff:127.0.0.0]/104[ ::1]/128
+Mailbox size limit: 0
+Local address extension character: +
+Internet protocols to use: all
+
+sudo postconf -e 'home_mailbox= Maildir/'
+
+sudo postconf -e 'virtual_alias_maps= hash:/etc/postfix/virtual'
+
+
+sudo nano /etc/postfix/virtual
+vagrant@example.com vagrant
+paulo@example.com paulo
+sudo postmap /etc/postfix/virtual
+sudo postfix stop
+sudo postfix start
+
+sudo ufw allow Postfix
+
+echo 'export MAIL=~/Maildir' | sudo tee -a /etc/bash.bashrc | sudo tee -a /etc/profile.d/mail.sh
+
+source /etc/profile.d/mail.sh
+
+vagrant@example.com vagrant
+paulo@example.com paulo
+
+
+echo "Ao rai3mb, Testando envio de email com mutt Att, tu mesmo" | mutt -s "assunto teste" rai3mb@gmail.com
+sudo postconf -e 'home_mailbox= Maildir/'
+    5  ls
+    6  sudo postconf -e 'virtual_alias_maps= hash:/etc/postfix/virtual'
+    7  sudo nano /etc/postfix/virtual
+    8  sudo postmap /etc/postfix/virtual
+    9  sudo systemctl restart postfix
+   10   
+   11  source /etc/profile.d/mail.sh
+   12  source /etc/profile.d/mail.sh
+   13  cd /etc/
+   14  ls
+   15  cd profile.d
+   16  ls
+   17  mail.sh
+   18  sudo nano mail.sh
+   19  sudo apt-get install s-nail
+   20  sudo apt-get install xmaill
+   21  sudo apt-get install mutt
+   22  mai
+   23  mail
+   24  sudo apt-get install mailutils
+   25  mail
+   26  mail -s "Hello World" paulo@example.com
+   27  ssh paulo@localhost
+   28  history
+
+
+
+
+
+
+vagrant@precise64:~$ sudo DEBIAN_PRIORITY=low apt-get install postfix
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following extra packages will be installed:
+  ssl-cert
+Suggested packages:
+  procmail postfix-mysql postfix-pgsql postfix-ldap postfix-pcre sasl2-bin
+  dovecot-common postfix-cdb mail-reader postfix-doc openssl-blacklist
+The following NEW packages will be installed:
+  postfix ssl-cert
+0 upgraded, 2 newly installed, 0 to remove and 193 not upgraded.
+Need to get 1,330 kB of archives.
+After this operation, 3,545 kB of additional disk space will be used.
+Do you want to continue [Y/n]? y
+Get:1 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main ssl-cert all 1.0.28ubuntu0.1 [12.3 kB]
+Get:2 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main postfix amd64 2.9.6-1~12.04.3 [1,318 kB]
+Fetched 1,330 kB in 1s (930 kB/s)
+Preconfiguring packages ...
+Selecting previously unselected package ssl-cert.
+(Reading database ... 52320 files and directories currently installed.)
+Unpacking ssl-cert (from .../ssl-cert_1.0.28ubuntu0.1_all.deb) ...
+Selecting previously unselected package postfix.
+Unpacking postfix (from .../postfix_2.9.6-1~12.04.3_amd64.deb) ...
+Processing triggers for man-db ...
+Processing triggers for ureadahead ...
+ureadahead will be reprofiled on next reboot
+Processing triggers for ufw ...
+Setting up ssl-cert (1.0.28ubuntu0.1) ...
+Setting up postfix (2.9.6-1~12.04.3) ...
+Adding group `postfix' (GID 112) ...
+Done.
+Adding system user `postfix' (UID 106) ...
+Adding new user `postfix' (UID 106) with group `postfix' ...
+Not creating home directory `/var/spool/postfix'.
+setting synchronous mail queue updates: false
+Creating /etc/postfix/dynamicmaps.cf
+Adding tcp map entry to /etc/postfix/dynamicmaps.cf
+Adding sqlite map entry to /etc/postfix/dynamicmaps.cf
+Adding group `postdrop' (GID 113) ...
+Done.
+

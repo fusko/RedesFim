@@ -1,0 +1,97 @@
+a estrutura de arquivos é dada por...
+
+├── manifests
+│   └── default.pp
+├── modules
+│   ├── arquivos
+│   │   ├── files
+│   │   │   └── index.html
+│   │   └── manifests
+│   │       └── init.pp
+│   ├── links
+│   │   └── manifests
+│   │       └── init.pp
+│   ├── mailutils
+│   │   └── manifests
+│   │       └── init.pp
+│   ├── mutt
+│   │   └── manifests
+│   │       └── init.pp
+│   ├── nginx
+│   │   └── manifests
+│   │       └── init.pp
+│   ├── postfix
+│   │   ├── files
+│   │   │   ├── main.cf
+│   │   │   └── virtual
+│   │   └── manifests
+│   │       ├── config.pp
+│   │       ├── init.pp
+│   │       ├── install.pp
+│   │       └── service.pp
+│   ├── system-update
+│   │   └── manifests
+│   │       └── init.pp
+│   └── user
+│       ├── files
+│       │   └── createUser.sh
+│       └── manifests
+│           └── init.pp
+├── tutorial.txt
+└── Vagrantfile
+
+
+Classes:
+
+arquivos:
+faz a copia do arquivo de pagina web.
+
+links:
+instala o navegador por terminal links.
+
+mailutils:
+instala o pacote mailutils, usado principalmente para testes sobre o postfix.
+
+mutt:
+cliente de email utilizado.
+
+nginx:
+sevidor web utilizado.
+
+postfix:
+Gerenciador de email, para melhor organização a classe foi divididade em 3 sub classes(install, config e service)
+-postfix::install:
+instala o pacote postfix.
+-postfix::config:
+    substitui os arquivos de configuração necessarios para execução do postfix.
+        -main.cf: base da configuração do postfix, os principais atributos que podem vir a ser modificados são:
+                *myhostname: conta que recebera email endereçados a "root@"
+                *mydestination:detinos de emails que o servidor postfix aceitará receber
+                *mailbox_size_limit:usado para limitar o tamanho das mensagens, 0 desativa a restrição de tamanho
+                *mynetworks:lista das redes para as quais seu servidor de e-mail está configurado para retransmitir as mensagens.             
+        
+        -virtual:mapea o endereço virtual para as contas apropriadas do servidor, cada linha contem um endereço de email seguida de um espaço e o usuario para o qual o email deve ser entregue 
+-postfix::service
+    garante que o serviço está rodando e foi reiniciado
+system-update:
+instala e garante a execução do system-update
+
+user:
+copia um arquivo ssh para a maquina e o executa
+-createUser:
+    "sudo useradd -m -g users -p asdf X" cria um usuario "X" com uma senha criptografada "asdf"
+    "sudo usermod -p $(openssl passwd -1 x) X" modifica a senha do usuario "X" para x 
+
+
+
+
+para enviar um email basta acessar um usuario:
+$ssh diogo@localhost
+yes
+diogo
+
+$mutt -s "Test Email" mateus
+
+/home/diogo/Mail does not exist. Create it? yes
+
+confirmar configuração duas vezes, então estara disponivel a
