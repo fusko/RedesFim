@@ -1,0 +1,1 @@
+/^Content-(Type|Disposition):.*(file)?name=.*\.(zip|rar|7zip|exe|bat|js)/ REJECT Email rejeitado, devido a um arquivo .${3} em anexo considerado como perigoso ou desconhecido - POR FAVOR COMPACTE SEU ARQUIVO

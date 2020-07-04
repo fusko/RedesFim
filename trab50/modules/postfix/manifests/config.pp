@@ -16,6 +16,26 @@ file {'/etc/postfix/virtual':
 	mode   => '0644',
 	source => 'puppet:///modules/postfix/virtual',
 }
+
+
+file {'/etc/postfix/header_checks':
+    ensure => file,
+	require => Package['postfix'],
+ 	owner  => 'root',
+	group  => 'root',
+	mode   => '0644',
+	source => 'puppet:///modules/postfix/header_checks',
+}
+
+
+file {'/etc/postfix/sender_access':
+    ensure => file,
+	require => Package['postfix'],
+ 	owner  => 'root',
+	group  => 'root',
+	mode   => '0644',
+	source => 'puppet:///modules/postfix/sender_access',
+}
 }
 
 
