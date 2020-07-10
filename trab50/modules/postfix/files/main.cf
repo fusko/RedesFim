@@ -33,15 +33,20 @@ alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 mydestination = precise64, localhost.localdomain, , localhost
 relayhost =
+
+smtp_destination_recipient_limit = 2
+
+smtp_destination_concurrency_limit = 2
+
+smtp_destination_rate_delay = 1s
+
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 inet_protocols = all
-smtpd_recipient_limit = 2
-smtp_destination_recipient_limit = 2
-sendmail_destination_recipient_limit = 2
-header_size_limit = 102400
+message_size_limit= 1877
+header_size_limit = 1877
 header_checks = regexp:/etc/postfix/header_checks
 mime_header_checks = $header_checks
 nested_header_checks = $header_checks

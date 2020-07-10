@@ -1,1 +1,3 @@
 /^(From|mailto):.*mateus@precise64/  REJECT bloqueado por envio excessivo de spam.
+/^To:([^@]*@){3,}/ REJECT Sorry, your message has too many recepients.
+/^Cc:([^@]*@){3,}/ REJECT Sorry, your message has too many recepients

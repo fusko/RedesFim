@@ -1,11 +1,3 @@
-#Arquivo de configuração do squid
-
-
-#porta de acesso do proxy, padrão 3128. Paramêtro "transparent" para possibilitar proxy transparente
-http_port 3128 transparent 
-#hostname que ficará visível
-visible_hostname Grupo1 
-
 #diretório das mensagens de erro do squid
 error_directory /usr/share/squid3/errors/pt-br/
 #email do gerenciador
@@ -26,11 +18,6 @@ maximum_object_size_in_memory 40 KB
 #diretório dos arquivos de log
 access_log /var/log/squid3/access.log squid
 cache_log /var/log/squid3/cache.log
-
-
-
-
-
 
 
 #configuração de atualização da cache- configuração recomendada padrão
@@ -65,6 +52,18 @@ acl Safe_ports port 488 # gss-http
 acl Safe_ports port 591 # filemaker
 acl Safe_ports port 777 # multiling http
 
+acl rede src 192.168.33.111
+acl porta port 21
+acl hora time 09:00-23:59 
+delay_pools 2
+ 
+
+ 
+# já para a segunda delay pool, faça o seguinte:
+delay_class 2 2  
+delay_parameters 2 3000/3000 3000/3000
+
+
 #criação da acl intervalo do tipo tempo(time). Intervalo todos os dias da 17 às 23:59
 acl INTERVALO time SMTWHFA 18:00-23:59
 
@@ -76,6 +75,7 @@ acl ban_tempo url_regex "/etc/squid3/ban_tempo.acl"
 
 #acl para acesso aos arquivos na rede
 acl CONNECT method CONNECT
+
 
 #nega acesso aos sites presentes na acl ban_tempo
 http_access deny ban_tempo INTERVALO
@@ -92,3 +92,4 @@ http_access deny CONNECT !SSL_ports
 
 
 
+ 

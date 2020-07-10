@@ -2,19 +2,51 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Apache e NGINX</title>
-	<meta name="author" content="Mateus Berger e Diogo Rafael Silva de Almeida">
+	<title>Politicas de segurança</title>
+	<meta name="author" content="Diogo Rafael Silva de Almeida">
 </head>
 <body>
 	<div>
 		<p>
-		Componentes:
-		<br>Mateus Berger
 		<br>Diogo Rafael Silva de Almeida
 		</p>
 	</div>
 	<div>
-		<h1>Apache e NGINX</h1>
+		<h1>Política de Segurança</h1>
+
+		1.	Definição do que é uma Política de Segurança (conceitos);
+
+
+		(confidencialidade, integridade e disponibilidade)
+		A Segurança da informação refere-se à proteção existente sobre as informações de uma determinada empresa ou pessoa, isto é, aplica-se tanto às informações corporativas quanto às pessoais. Entende-se por informação todo e qualquer conteúdo ou dado que tenha valor para alguma organização ou pessoa
+		Segundo Núcleo de Informação e Coordenação do Ponto uma politica de segurança A política de segurança não define procedimentos específicos de manipulação e proteção da informação,
+		mas atribui direitos e responsabilidades às pessoas (usuários, administradores de redes e sistemas, funcionários, gerentes, etc.) que lidam com essa informação.
+		a proteção contra o uso ou acesso não-autorizado à informação
+		também cobre toda a infraestrutura que permite o seu uso, como processos, sistemas, serviços, tecnologias, e outros.
+		aspectos preliminares
+		política de senhas
+		direitos e responsabilidades dos usuários, tais como
+		direitos e responsabilidades do provedor dos recursos, como
+		ações previstas em caso de violação da política:
+
+		a proibitiva (tudo que não é expressamente permitido é proibido) e
+		a permissiva (tudo que não é proibido é permitido).
+		Os elementos da política de segurança devem ser considerados:
+		
+		Disponibilidade: o sistema deve estar disponível de forma que quando o usuário necessitar, possa usar. Dados críticos devem estar disponíveis ininterruptamente;
+		Integridade: o sistema deve estar sempre íntegro e em condições de ser usado;
+		Confidencialidade: dados privados devem ser apresentados somente aos donos dos dados ou ao grupo por ele liberado;
+		Autenticidade: o sistema deve ter condições de garantir de que a informação e/ou a identidade dos usuários, são quem dizem ser;
+		Legalidade: valor legal das informações dentro de um processo de comunicação
+
+		Prevenção de Abuso de Recursos
+		. Controle de Relay em Servidores SMTP
+		Controle de Acesso a Proxies Web
+		
+		Uso Eficaz de Firewalls
+
+		Escolha de um Firewall
+
 		<p>UUm Servidor Web é responsável por armazenar e transmitir informações para clientes. Essa comunicação se dá através de um usuário, que utilizando um browser, solicita informações de um servidor, o qual irá localizar as informações solicitadas na requisição do cliente, a formata e devolve ao Browser, responsável por interpretar e construir uma página, legível ao usuário.<br>
 		Esta parece ser uma tarefa simples, porém, normalmente, uma pagina pode chegar a receber milhares de acessos simultâneos, para isso, o software de gerenciamento do serviço web deve ser capaz de lidar com essa grande quantia de requisições. Atualmente, existem dois principais serviços como esse: o Apache e o NGINX.</p>
 		<h2>Apache</h2>
@@ -27,22 +59,33 @@
 		<p>Essa é uma pergunta difícil de responder, pois, isso depende do cenário em que será utilizado. Se há uma menor necessidade de gerenciamento e maior busca por desempenho e escalabilidade, principalmente quando há muitas requisições paralelas, o Nginx pode lhe servir melhor. Já, caso você busque uma melhor documentação, mais versatilidade no gerenciamento e personalização, o apache pode te proporcionar mais opções e ser o que você procura. De qualquer modo, ambas as ferramentas são boas e satisfazem boa parte das aplicações no mercado.</p>
 	</div>
 	<div>
-		<h1>Pocesso de instalação do Nginx</h1>
-		<h3>Para efetuar a instalação do NGINX em um sistema operacional linux (ubuntu), devemos seguir os passos abaixo.</h2>
-		<p>instalar o nginx:</p>
-		<code>sudo apt-get update</code>
-		<code>sudo apt-get upgrade</code>
-		<code>sudo apt-get install nginx</code>
-		<p>liberar acesso no firewall:</p>
-		<code>sudo ufw app list</code>
-		<code>sudo ufw allow 'Nginx HTTP'</code>
-		<p>verificar se o serviço do NGINX está rodando:</p>
-		<code>systemctl status nginx</code>
-
-		<h3>para instalar através do puppet, podemos utilizar a seguinte classe:</h2>
-		<code>class nginx {<br>package {'nginx':<br>ensure => "installed",<br>require => Class["system-update"],<br>}<br><br>service {'nginx':<br>ensure  => 'running',<br>enable  => 'true',<br>require => Package['nginx']<br>}<br>}<br></code>
-		<p>onde primeiramente garantimos a instalação do pacote nginx mantendo como dependência para sua instalação a execução da classe system-update. após garantimos que o service esteja executando desde que o pacote nginx esteja instalado.</p>
-		<p>Vale lembrar que em ambos casos o arquivo index.html poderá ser encontrado no caminho  '/usr/share/nginx/www/index.html'.</p>
-	</div>
+		</div>
 </body>
 </html>
+
+
+acl rede src 192.168.33.111
+acl porta port 21
+acl hora time 09:00-23:59 
+delay_pools 2
+ 
+# agora faça o controle de banda para a primeira  
+fazendo o seguinte:
+delay_class 1 2
+delay_parameters 1 -1/-1 -1/-1  
+# -1/-1 significa que não teremos limites para a  
+delay pool 1
+ 
+delay_access 1 allow rede
+ 
+# já para a segunda delay pool, faça o seguinte:
+delay_class 2 2  
+delay_parameters 2 3000/3000 3000/3000
+
+ 
+# confirmação para o tempo:  
+delay_access 2 allow hora
+#delay_access 2 deny !hora
+ 
+# e sua felicidade:
+delay_access 2 allow port  
