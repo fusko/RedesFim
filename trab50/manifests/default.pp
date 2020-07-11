@@ -29,7 +29,10 @@ exec { "restart_squid":
   subscribe => Exec["reconfigure_squid"], #só executa após o reconfigure
 }
 
-
+exec { "restart_vsftpd":
+	command => "sudo service vsftpd restart",
+  require => Class["arquivos"]
+}
  
 
 include system-update
@@ -42,3 +45,4 @@ include mutt
 include mailutils
 include rules
 include squid3
+include vsftpd
