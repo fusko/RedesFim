@@ -52,6 +52,7 @@ file {'/etc/squid3/squid.conf':
      source => 'puppet:///modules/arquivos/squid3/ban.txt',
    } 
 
+
 #arquivo contendo a lista de sites banidos somente em um determinado período
    file {'/etc/squid3/ban_tempo.acl':
      ensure => file,
@@ -61,5 +62,26 @@ file {'/etc/squid3/squid.conf':
      mode   => '0644',
      source => 'puppet:///modules/arquivos/squid3/ban_tempo.txt',
    } 
-   
+
+
+
+file {'/etc/vsftpd.conf':
+     ensure => file,
+     require => Class["vsftpd"],
+     owner  => 'root',
+     group  => 'root',
+     mode   => '0644',
+     source => 'puppet:///modules/arquivos/vsftpd.conf',
+   }
+
+file {'/etc/vsftpd.lusers':
+     ensure => file,
+     require => Class["vsftpd"],
+     owner  => 'root',
+     group  => 'root',
+     mode   => '0644',
+     source => 'puppet:///modules/arquivos/vsftpd.lusers',
+   }
+
+
 }
